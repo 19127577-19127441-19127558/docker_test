@@ -9,14 +9,14 @@ pipeline {
 		}
         stage ("Build") {
             steps {
-		bat "docker build -t jenkins-docker:latest ."
-		bat "docker tag jenkins-docker:latest pdtien19/jenkins-docker:latest"
+		bat "docker build -t test:latest ."
+		bat "docker tag test:latest pdtien19/test:latest"
             }
         }
         stage ("Publish") {
             steps {
                 withDockerRegistry(credentialsId: 'docker-hub', url: ''){
-                    bat 'docker push pdtien19/jenkins-docker:latest'
+                    bat 'docker push pdtien19/test:latest'
             }
         }
         }
