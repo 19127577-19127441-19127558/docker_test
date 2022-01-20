@@ -1,28 +1,43 @@
-pipeline {
-    agent any
-    stages {
-        stage('gitclone') {
+pipeline{
+
+	agent any
+
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker hub')
+	}
+
+	stages {
+	    
+	    stage('gitclone') {
 
 			steps {
-				git branch: 'main', url: 'https://github.com/19127577-19127441-19127558/docker_test.git'
+				git 'https://github.com/hung-le-10/Jenkins-Docker.git'
 			}
 		}
-        stage ("Build") {
-            steps {
-		bat "docker build -t test:latest ."
-		bat "docker tag test:latest pdtien19/test:latest"
-            }
-        }
-        stage ("Publish") {
-            steps {
-                withDockerRegistry(credentialsId: 'docker-hub', url: ''){
-                    bat 'docker push pdtien19/test:latest'
-            }
-        }
-        }
-    }
 
-    post {
+		stage('Build') {
+
+			steps {
+				bat 'docker build -t hungle11/docker:latest .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				bat 'docker push hungle11/docker:latest'
+			}
+		}
+	}
+
+	post {
 		always {
 			bat 'docker logout'
 		}
