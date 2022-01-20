@@ -11,14 +11,14 @@ pipeline{
 	    stage('gitclone') {
 
 			steps {
-				git 'https://github.com/hung-le-10/Jenkins-Docker.git'
+				git 'https://github.com/19127577-19127441-19127558/docker_test.git'
 			}
 		}
 
 		stage('Build') {
 
 			steps {
-				bat 'docker build -t hungle11/docker:latest .'
+				bat 'docker build -t phamduytien1805/node-app:latest .'
 			}
 		}
 
@@ -32,7 +32,7 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				bat 'docker push hungle11/docker:latest'
+				bat 'docker push phamduytien1805/node-app:latest'
 			}
 		}
 	}
